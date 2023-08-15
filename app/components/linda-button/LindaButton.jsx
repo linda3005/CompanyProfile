@@ -2,6 +2,7 @@ import { Button, Typography } from "@mui/material";
 import React from "react";
 
 function LindaButton({text}) {
+  
     return (
         <Button
           variant="contained"

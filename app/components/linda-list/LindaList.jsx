@@ -12,7 +12,7 @@ function LindaList( {Labels} ) {
             </Typography>
           </Grid>
           <Grid item md={6}>
-        {Labels.details.map((label, index) => (
+        {Labels.details?.map((label, index) => (
             <Grid container key={index}>
                 <Grid item xs={12} md={6}>
                     <Typography variant="subtitle1">

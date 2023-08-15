@@ -27,15 +27,17 @@ function LindaPersonalDetail({ Labels }) {
                         </Grid>
                         <Grid container>
                             <Grid item xs={12} md={8}>
-                                <Typography variant="subtitle1" display="inline">
-                                    Language : 
-                                </Typography>
-                                {Labels.language.map((label, index) => (
-                                    <Typography key={index} variant="subtitle1" display="inline">
-                                        {label.nameLanguage}
-                                        {index < Labels.language.length - 1 ? ", " : ""}
+                                {Labels.language && Labels.language.length > 0 && (
+                                    <Typography variant="subtitle1">
+                                        Language :{" "}
+                                        {Labels.language?.map((label, index) => (
+                                            <span key={index}>
+                                                {label.nameLanguage}
+                                                {index < Labels.language.length - 1 ? ", " : ""}
+                                            </span>
+                                        ))}
                                     </Typography>
-                                ))}
+                                )}
                             </Grid>
                         </Grid>
                     </Grid>

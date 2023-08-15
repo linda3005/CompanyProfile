@@ -1,13 +1,28 @@
 import { Container, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation"
-
+import Link from "next/link";
 import LindaButton from '../linda-button/LindaButton';
 
 
-function LindaLayout({srcImage}) {
-    const pathname = usePathname();
-    const showButtons = pathname === "/";
+function LindaLayout({ srcImage }) {
+  const pathname = usePathname();
+  const showButtons = pathname === "/";
+  const isEditPage = pathname === "/edit";
+  const [photo, setPhoto] = useState("");
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    // Retrieve data from local storage
+    const storedData = localStorage.getItem('formData');
+    const formData = storedData ? JSON.parse(storedData) : {};
+
+    // For Extract photo and description from the formData
+    const { photo, description } = formData;
+
+    setPhoto(photo || "");
+    setDescription(description || "");
+  }, []);
   return (
     <Container>
       <Grid
@@ -19,38 +34,40 @@ function LindaLayout({srcImage}) {
       >
         <Grid item xs={12} md={6}>
           {/* Image */}
-          <img src={srcImage} alt="Profile" style={{ width: "auto", borderRadius: '50%'}} />
+          <img src={photo} alt="Profile" style={{ width: "auto", borderRadius: '50%' }} />
         </Grid>
         <Grid item xs={12} md={6}>
           {/* Profile Text */}
-          <Typography variant="h2" sx={{fontWeight: 'bold'}}>Hellow!!</Typography>
-          <Typography variant="h5" sx={{fontWeight: 'bold'}}>A little about Me</Typography>
-          <Typography variant="subtitle1" style={{ fontFamily: "Nunito, sans-serif" }}> 
-          My name is Linda Damayanti. I have experience as a system analyst and front-end developer. As a Software developer at PT Padepokan 79, 
-          I am a graduate of Informatics Engineering at Bandung State Polytechnic 
-          and play an active role in group projects for required system analysis, 
-          system design, and application implementation. 
-          I have expertise in programming, system analysis, project management, and time management. 
-          I am also a person who is disciplined and likes punctuality, 
-          and every job must be well organized.
-
+          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>Hellow!!</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>A little about Me</Typography>
+          <Typography variant="subtitle1" style={{ fontFamily: "Nunito, sans-serif" }}>
+            {description}
           </Typography>
           {/* Buttons */}
-          <br/>
-          {showButtons 
-          &&
-          (
-            <Grid item>
-                <Grid container spacing={2}>
-                    <Grid item>
-                        <LindaButton text='Detail'/>
-                    </Grid>
-                    <Grid item>
-                        <LindaButton text= 'Edit' />
-                    </Grid>
+          <br />
+          <Grid item >
+            <Grid container spacing={2}>
+              {showButtons &&
+                (
+                  <Grid item>
+                    <Link href="/detail">
+                      <LindaButton text='Detail' />
+                    </Link>
+                  </Grid>
+                )}
+              {isEditPage ? (
+                <Grid item>
+                  <LindaButton text='Save' />
                 </Grid>
+              ) : (
+                <Grid item>
+                  <Link href="/edit">
+                    <LindaButton text='Edit' />
+                  </Link>
+                </Grid>
+              )}
             </Grid>
-          )}
+          </Grid>
         </Grid>
       </Grid>
     </Container>
